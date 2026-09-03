@@ -5,7 +5,7 @@ export async function middleware(request) {
   let supabaseResponse = NextResponse.next({ request })
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   // If Supabase credentials are not configured or are placeholders, pass through safely
   if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes('placeholder')) {

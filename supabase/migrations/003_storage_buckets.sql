@@ -3,11 +3,7 @@
 -- -----------------------------------------------------------------------------
 -- STORAGE BUCKET CREATION & POLICIES
 -- -----------------------------------------------------------------------------
--- NOTE: Storage bucket creation is usually done via the Supabase Dashboard 
--- or management API. The SQL below is provided as a reference to run in the 
--- Supabase SQL Editor or configured via the dashboard.
 
-/*
 -- Create the required public storage buckets
 INSERT INTO storage.buckets (id, name, public) VALUES 
 ('fish-media', 'fish-media', true),
@@ -24,20 +20,41 @@ ON CONFLICT (id) DO NOTHING;
 -- -----------------------------------------------------------------------------
 
 -- Public can SELECT (read/download) from all these buckets
-CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (
-  bucket_id IN ('fish-media', 'gallery', 'journal', 'testimonials', 'branding', 'farm', 'achievements')
-);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'storage' AND tablename = 'objects' AND policyname = 'Public Access'
+  ) THEN
+    CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (
+      bucket_id IN ('fish-media', 'gallery', 'journal', 'testimonials', 'branding', 'farm', 'achievements')
+    );
+  END IF;
+END $$;
 
 -- Authenticated Admin/Editor can INSERT, UPDATE, DELETE objects
-CREATE POLICY "Admin and Editor Insert" ON storage.objects FOR INSERT WITH CHECK (
-  auth.role() = 'authenticated' AND public.get_user_role() IN ('admin', 'super_admin', 'editor')
-);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'storage' AND tablename = 'objects' AND policyname = 'Admin and Editor Insert'
+  ) THEN
+    CREATE POLICY "Admin and Editor Insert" ON storage.objects FOR INSERT WITH CHECK (
+      auth.role() = 'authenticated' AND public.get_user_role() IN ('admin', 'super_admin', 'editor')
+    );
+  END IF;
 
-CREATE POLICY "Admin and Editor Update" ON storage.objects FOR UPDATE USING (
-  auth.role() = 'authenticated' AND public.get_user_role() IN ('admin', 'super_admin', 'editor')
-);
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'storage' AND tablename = 'objects' AND policyname = 'Admin and Editor Update'
+  ) THEN
+    CREATE POLICY "Admin and Editor Update" ON storage.objects FOR UPDATE USING (
+      auth.role() = 'authenticated' AND public.get_user_role() IN ('admin', 'super_admin', 'editor')
+    );
+  END IF;
 
-CREATE POLICY "Admin and Editor Delete" ON storage.objects FOR DELETE USING (
-  auth.role() = 'authenticated' AND public.get_user_role() IN ('admin', 'super_admin', 'editor')
-);
-*/
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'storage' AND tablename = 'objects' AND policyname = 'Admin and Editor Delete'
+  ) THEN
+    CREATE POLICY "Admin and Editor Delete" ON storage.objects FOR DELETE USING (
+      auth.role() = 'authenticated' AND public.get_user_role() IN ('admin', 'super_admin', 'editor')
+    );
+  END IF;
+END $$;

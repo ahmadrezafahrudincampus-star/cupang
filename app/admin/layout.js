@@ -9,9 +9,21 @@ export default async function AdminLayout({ children }) {
   const devSession = cookieStore.get('admin_dev_session')?.value === 'true'
   const isPlaceholder = !process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL.includes('placeholder')
 
-  const isAuthenticated = !!user || (isPlaceholder && devSession)
+  let isAuthorized = false
+  if (user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role, active')
+      .eq('id', user.id)
+      .maybeSingle()
+    if (profile && ['admin', 'super_admin', 'editor'].includes(profile.role) && profile.active !== false) {
+      isAuthorized = true
+    }
+  } else if (isPlaceholder && devSession) {
+    isAuthorized = true
+  }
 
-  if (!isAuthenticated) {
+  if (!isAuthorized) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4 text-on-surface">
         {children}

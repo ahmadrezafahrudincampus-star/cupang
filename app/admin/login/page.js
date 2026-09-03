@@ -28,22 +28,45 @@ export default function LoginPage() {
     }
 
     try {
-      const { error: authError } = await supabase.auth.signInWithPassword({
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
       })
 
       if (authError) {
-        setError(authError.message)
+        setError(authError.message || 'Kombinasi email dan kata sandi tidak valid.')
         setLoading(false)
-      } else {
+        return
+      }
+
+      if (data?.user) {
+        // Verify role server-side via profiles table
+        const { data: profile, error: profileErr } = await supabase
+          .from('profiles')
+          .select('role, active')
+          .eq('id', data.user.id)
+          .maybeSingle()
+
+        if (profileErr || !profile || !['admin', 'super_admin', 'editor'].includes(profile.role)) {
+          await supabase.auth.signOut()
+          setError('Akses ditolak. Akun Anda tidak memiliki hak akses CMS.')
+          setLoading(false)
+          return
+        }
+
+        if (profile.active === false) {
+          await supabase.auth.signOut()
+          setError('Akun Anda dinonaktifkan. Hubungi super administrator.')
+          setLoading(false)
+          return
+        }
+
         router.push('/admin/dashboard')
         router.refresh()
       }
-    } catch {
-      document.cookie = 'admin_dev_session=true; path=/; max-age=86400;'
-      router.push('/admin/dashboard')
-      router.refresh()
+    } catch (err) {
+      setError(err?.message || 'Gagal menghubungi server autentikasi.')
+      setLoading(false)
     }
   }
 

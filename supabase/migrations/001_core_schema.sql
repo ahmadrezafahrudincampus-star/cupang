@@ -102,8 +102,10 @@ CREATE INDEX idx_fish_created_at ON public.fish(created_at);
 CREATE TABLE public.fish_media (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     fish_id uuid REFERENCES public.fish(id) ON DELETE CASCADE,
-    media_type text CHECK (media_type IN ('image', 'video')),
+    storage_bucket text DEFAULT 'fish-media',
     storage_path text NOT NULL,
+    media_type text DEFAULT 'image' CHECK (media_type IN ('image', 'video')),
+    is_primary boolean DEFAULT false,
     alt_text text,
     caption text,
     width integer,
@@ -126,6 +128,7 @@ CREATE TABLE public.gallery_items (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     category_id uuid REFERENCES public.gallery_categories(id) ON DELETE SET NULL,
     storage_path text NOT NULL,
+    category text,
     title text,
     alt_text text,
     caption text,
@@ -139,22 +142,28 @@ CREATE TABLE public.gallery_items (
 -- breeding_stages
 CREATE TABLE public.breeding_stages (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    stage_number integer DEFAULT 0,
     title text NOT NULL,
-    slug text UNIQUE NOT NULL,
+    title_en text,
+    slug text,
     description text,
+    description_en text,
     image_path text,
     sort_order integer DEFAULT 0,
     published boolean DEFAULT true,
     created_at timestamptz DEFAULT now(),
     updated_at timestamptz DEFAULT now()
 );
+CREATE UNIQUE INDEX idx_breeding_stages_stage_number ON public.breeding_stages(stage_number);
 
 -- farm_sections
 CREATE TABLE public.farm_sections (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     title text NOT NULL,
-    slug text UNIQUE NOT NULL,
+    title_en text,
+    slug text,
     description text,
+    description_en text,
     image_path text,
     sort_order integer DEFAULT 0,
     published boolean DEFAULT true,
@@ -186,6 +195,7 @@ CREATE TABLE public.testimonials (
     fish_id uuid REFERENCES public.fish(id) ON DELETE SET NULL,
     verified boolean DEFAULT false,
     published boolean DEFAULT false,
+    sort_order integer DEFAULT 0,
     created_at timestamptz DEFAULT now(),
     updated_at timestamptz DEFAULT now()
 );
@@ -212,6 +222,7 @@ CREATE TABLE public.journal_posts (
     seo_description text,
     canonical_url text,
     og_image_path text,
+    published boolean DEFAULT true,
     status text DEFAULT 'draft' CHECK (status IN ('draft', 'published', 'archived')),
     published_at timestamptz,
     created_at timestamptz DEFAULT now(),
@@ -230,7 +241,9 @@ CREATE TABLE public.faqs (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     category_id uuid REFERENCES public.faq_categories(id) ON DELETE SET NULL,
     question text NOT NULL,
+    question_en text,
     answer text NOT NULL,
+    answer_en text,
     sort_order integer DEFAULT 0,
     published boolean DEFAULT true
 );

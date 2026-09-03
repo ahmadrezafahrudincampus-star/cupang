@@ -4,17 +4,15 @@ import { createAdminClient } from '@/lib/supabase/admin'
 export async function submitInquiry(inquiryData) {
   try {
     const supabase = await createClient()
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('inquiries')
       .insert([inquiryData])
-      .select()
-      .single()
       
     if (error) {
       console.error('Error submitting inquiry:', error)
       return { data: null, error }
     }
-    return { data, error: null }
+    return { data: { success: true }, error: null }
   } catch (error) {
     console.error('Exception in submitInquiry:', error)
     return { data: null, error }

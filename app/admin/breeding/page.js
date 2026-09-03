@@ -29,7 +29,7 @@ export default function AdminBreedingPage() {
       fields={fields}
       columns={columns}
       frameType="breeding"
-      bucket="breeding"
+      bucket="farm"
       defaultSort="stage_number"
     />
   )

@@ -25,7 +25,7 @@ export default function AdminBloodlinesPage() {
       fields={fields}
       columns={columns}
       frameType="fish"
-      bucket="breeding"
+      bucket="fish-media"
       defaultSort="name"
     />
   )

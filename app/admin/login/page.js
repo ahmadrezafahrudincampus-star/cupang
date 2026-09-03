@@ -9,7 +9,18 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      const errParam = params.get('error')
+      if (errParam === 'config_missing') {
+        return 'Konfigurasi Supabase backend belum lengkap pada environment ini.'
+      } else if (errParam === 'unauthorized') {
+        return 'Akses ditolak. Akun Anda tidak memiliki hak akses CMS.'
+      }
+    }
+    return null
+  })
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const supabase = createClient()
@@ -20,7 +31,8 @@ export default function LoginPage() {
     setError(null)
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    if (!supabaseUrl || supabaseUrl.includes('placeholder')) {
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (!supabaseUrl || !supabaseKey || supabaseUrl.includes('placeholder')) {
       setError('Konfigurasi Supabase backend belum lengkap pada environment ini.')
       setLoading(false)
       return

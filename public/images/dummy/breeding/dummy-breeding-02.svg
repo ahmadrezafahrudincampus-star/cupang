@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="farmGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1b1c18"/>
+      <stop offset="100%" stop-color="#0e0e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#farmGrad)"/>
+  
+  <!-- Facility Geometric Lines -->
+  <g stroke="rgba(255,255,255,0.06)" stroke-width="1" fill="none">
+    <line x1="100" y1="100" x2="1100" y2="100"/>
+    <line x1="100" y1="700" x2="1100" y2="700"/>
+    <rect x="150" y="180" width="260" height="340"/>
+    <rect x="470" y="180" width="260" height="340"/>
+    <rect x="790" y="180" width="260" height="340"/>
+  </g>
+  
+  <!-- Water Glow Effect -->
+  <circle cx="280" cy="350" r="80" fill="#e9c176" opacity="0.08"/>
+  <circle cx="600" cy="350" r="80" fill="#e9c176" opacity="0.08"/>
+  <circle cx="920" cy="350" r="80" fill="#e9c176" opacity="0.08"/>
+
+  <!-- Framing -->
+  <rect x="40" y="40" width="1120" height="720" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Captions -->
+  <text x="100" y="630" font-family="'Hanken Grotesk', sans-serif" font-size="14" font-weight="600" fill="#e9c176" letter-spacing="4">SECTION 02 &bull; BIO-FACILITY</text>
+  <text x="100" y="670" font-family="'Bodoni Moda', serif" font-size="32" font-weight="600" fill="#e4e2dd">Conditioning & High-Protein Diet</text>
+  <text x="1100" y="670" font-family="'Hanken Grotesk', sans-serif" font-size="14" fill="#9a8f80" text-anchor="end">Spawning Trigger & Tank Acclimatization</text>
+</svg>

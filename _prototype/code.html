@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="dark scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Betta Heritage - Luxury Fish Breeding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#e2e3dd",
+                        "on-background": "#e4e2dd",
+                        "surface-dim": "#131410",
+                        "surface-variant": "#353531",
+                        "on-primary-fixed": "#261900",
+                        "on-surface": "#e4e2dd",
+                        "on-tertiary-container": "#393c38",
+                        "on-tertiary-fixed-variant": "#454743",
+                        "on-primary-container": "#4e3700",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#a4a6a1",
+                        "surface-container-low": "#1b1c18",
+                        "surface-container-high": "#2a2a27",
+                        "error-container": "#93000a",
+                        "outline": "#9a8f80",
+                        "inverse-surface": "#e4e2dd",
+                        "on-secondary": "#2f312f",
+                        "surface-container-highest": "#353531",
+                        "on-secondary-container": "#b5b5b3",
+                        "secondary-fixed-dim": "#c6c7c4",
+                        "on-tertiary": "#2e312d",
+                        "on-surface-variant": "#d1c5b4",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "surface-bright": "#393935",
+                        "tertiary": "#c5c7c2",
+                        "primary-container": "#c5a059",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "on-secondary-fixed-variant": "#454746",
+                        "surface-tint": "#e9c176",
+                        "primary-fixed": "#ffdea5",
+                        "inverse-primary": "#775a19",
+                        "secondary-fixed": "#e2e3e0",
+                        "tertiary-fixed-dim": "#c5c7c2",
+                        "primary-fixed-dim": "#e9c176",
+                        "on-primary-fixed-variant": "#5d4201",
+                        "secondary-container": "#454746",
+                        "surface-container-lowest": "#0e0e0b",
+                        "on-secondary-fixed": "#1a1c1b",
+                        "outline-variant": "#4e4639",
+                        "secondary": "#c6c7c4",
+                        "primary": "#e9c176",
+                        "inverse-on-surface": "#30312d",
+                        "surface": "#131410",
+                        "background": "#131410",
+                        "on-primary": "#412d00",
+                        "surface-container": "#1f201c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "section-gap": "128px",
+                        "container-max": "1440px",
+                        "margin-mobile": "24px",
+                        "gutter": "32px",
+                        "unit": "8px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Bodoni Moda"],
+                        "headline-lg-mobile": ["Bodoni Moda"],
+                        "headline-lg": ["Bodoni Moda"],
+                        "body-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Bodoni Moda"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["20px", { "lineHeight": "28px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["72px", { "lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "500" }],
+                        "headline-lg": ["48px", { "lineHeight": "56px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "32px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .image-container-border {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased selection:bg-primary/30 selection:text-primary">
+<!-- Top Navigation (Shared Component) -->
+<nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-white/10 hidden md:block">
+<div class="flex justify-between items-center px-margin-desktop py-unit max-w-container-max mx-auto">
+<div class="flex items-center gap-4 cursor-pointer transition-all duration-200 active:opacity-70">
+<img alt="Betta Heritage Logo" class="h-12 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCQB-R7mueokrWniaZhht98Cs5PXF-rMxMW9lJhpHOcb5V7Roij83Yzobq7opwTmFx7oEoWUBHuJUnLyd0VSC2EtQYBER0gJX2re2dyxaiB5kqf-1bmQ_PFKbmvvpZWS9MFZxvekMX_QjpHQl7vBv4bYpmegFje0FLP3lHLGa05JzpB3hNUtAfL-abMff0Eo_2NOyhqLGxHSzxrYc5E5l3J1vm4f6FW_BYIpOt37yJ5IiTShTJ7AMm"/>
+<span class="font-display-lg text-title-lg tracking-tighter text-primary">AQUATIC ART</span>
+</div>
+<ul class="flex items-center gap-8 font-label-sm text-label-sm tracking-widest">
+<li><a class="text-on-background/60 hover:text-primary transition-colors duration-300" href="#">Portfolio</a></li>
+<li><a class="text-on-background/60 hover:text-primary transition-colors duration-300" href="#">Process</a></li>
+<li><a class="text-on-background/60 hover:text-primary transition-colors duration-300" href="#">Farm</a></li>
+<li><a class="text-on-background/60 hover:text-primary transition-colors duration-300" href="#">Gallery</a></li>
+</ul>
+<button class="font-label-sm text-label-sm tracking-widest text-primary hover:text-primary-container transition-colors duration-300 uppercase cursor-pointer transition-all duration-200 active:opacity-70 flex items-center gap-2">
+                Inquire <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</nav>
+<!-- Mobile Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 bg-background/90 backdrop-blur-md border-b border-white/10 md:hidden">
+<div class="flex justify-between items-center px-margin-mobile py-4">
+<img alt="Betta Heritage Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCQB-R7mueokrWniaZhht98Cs5PXF-rMxMW9lJhpHOcb5V7Roij83Yzobq7opwTmFx7oEoWUBHuJUnLyd0VSC2EtQYBER0gJX2re2dyxaiB5kqf-1bmQ_PFKbmvvpZWS9MFZxvekMX_QjpHQl7vBv4bYpmegFje0FLP3lHLGa05JzpB3hNUtAfL-abMff0Eo_2NOyhqLGxHSzxrYc5E5l3J1vm4f6FW_BYIpOt37yJ5IiTShTJ7AMm"/>
+<button class="text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<main class="w-full">
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center justify-center px-margin-mobile md:px-margin-desktop pt-24 pb-section-gap overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-40 mix-blend-luminosity">
+<div class="w-full h-full bg-cover bg-center" data-alt="A macro, cinematic photograph of a premium Betta fish swimming in dark waters. The lighting is dramatic, highlighting the iridescent scales and flowing, silk-like fins. Deep black background with subtle gold and crimson reflections from the fish. The mood is luxurious, serene, and natural." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDvORnkvEhH-ua7PS5sJx0CS1pmvVj3lYEudEgrpC2m6ire1jZaDkO_q5kftBlLkCSWp8eZpfIxp-bf3XDHZGrCkiTCLuocPRVIPrAecS42UxGJP0AkOwbkN28F7Fp7xrwRhZC12lKPWDvewqwb6h2taTg4CgUhUdQ16M9RIGKbnVhefnJ0C9h9HEm3TnNkmtQgDQPtXhCMIZcqrpqcrOvxz4n0Lk8yQwNcJgq-Pyx85E23ND4DRlpx')"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background"></div>
+</div>
+<div class="relative z-10 max-w-container-max mx-auto text-center flex flex-col items-center gap-8 w-full mt-20 md:mt-0">
+<h1 class="font-display-lg text-headline-lg-mobile md:text-display-lg text-primary max-w-4xl fade-up">
+                    BREEDING BEAUTY.<br/>CRAFTING LEGACY.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-background/80 max-w-2xl fade-up delay-100">
+                    Premium Betta Fish bred with passion, precision, and care. 
+                    A dedication to natural luxury and lineage.
+                </p>
+<div class="flex flex-col sm:flex-row gap-6 mt-8 fade-up delay-200">
+<button class="px-8 py-4 border border-primary text-primary font-label-sm text-label-sm tracking-widest hover:bg-primary/5 transition-all duration-300">
+                        EXPLORE COLLECTION
+                    </button>
+<button class="px-8 py-4 font-label-sm text-label-sm tracking-widest text-on-background hover:text-primary transition-all duration-300 border-b border-transparent hover:border-primary">
+                        OUR STORY
+                    </button>
+</div>
+</div>
+</section>
+<!-- Business Snapshot -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface">
+<div class="max-w-container-max mx-auto">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter border-t border-b border-white/10 py-16">
+<div class="flex flex-col gap-2 fade-up">
+<span class="font-display-lg text-headline-lg text-primary">15+</span>
+<span class="font-label-sm text-label-sm text-on-background/60 tracking-widest">YEARS BREEDING</span>
+</div>
+<div class="flex flex-col gap-2 fade-up delay-100">
+<span class="font-display-lg text-headline-lg text-primary">10k</span>
+<span class="font-label-sm text-label-sm text-on-background/60 tracking-widest">FISH BRED</span>
+</div>
+<div class="flex flex-col gap-2 fade-up delay-200">
+<span class="font-display-lg text-headline-lg text-primary">4.9</span>
+<span class="font-label-sm text-label-sm text-on-background/60 tracking-widest">AVG RATING</span>
+</div>
+<div class="flex flex-col gap-2 fade-up delay-300">
+<span class="font-display-lg text-headline-lg text-primary">24</span>
+<span class="font-label-sm text-label-sm text-on-background/60 tracking-widest">BLOODLINES</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Signature Collection -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto flex flex-col gap-16">
+<div class="flex justify-between items-end fade-up border-b border-white/10 pb-8">
+<h2 class="font-display-lg text-headline-md text-primary">Signature Collection</h2>
+<a class="font-label-sm text-label-sm text-on-background/80 hover:text-primary transition-colors duration-300 border-b border-on-background/80 hover:border-primary pb-1 hidden sm:block" href="#">
+                        VIEW ALL
+                    </a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Fish Card 1 -->
+<div class="group cursor-pointer fade-up flex flex-col gap-4">
+<div class="relative aspect-[4/5] overflow-hidden image-container-border bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100" data-alt="A striking Galaxy Koi Plakat Betta fish with vibrant speckles of red, black, and iridescent blue against a pure black background. The image is hyper-detailed, showcasing the precise fin structure and vivid coloration indicative of luxury breeding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvA_DS7gzXN4YUhNPs-lVeH-Z8Vw4AQNnlm0SMiyQOvyceSikYdpYRqZpXjneljIA79dyXMIGA8EEAveHINrhaSv7YRIXYgeLT78l8XQPnIVVsh2Xw2Y95sXFYzr3XGX57yu0L35Gt56FaxI6-AWsCUGvGF-xLfvFbf9ksMb6TYF3G4cV63pl5oTbTDqcOXo6xR81YzAVWjgGYLp_gmvAjmOlhJcjb_mpZRDhHKtW5kDSue3p19E9S"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-80"></div>
+<div class="absolute bottom-0 left-0 p-6 flex flex-col gap-2 w-full">
+<span class="font-label-sm text-label-sm text-primary tracking-widest">AVAILABLE</span>
+<h3 class="font-title-lg text-title-lg text-on-background">Galaxy Koi Plakat</h3>
+</div>
+</div>
+<div class="flex justify-between items-center px-2">
+<span class="font-label-sm text-label-sm text-on-background/60">ID: BT-2026-001</span>
+<span class="font-label-sm text-label-sm text-primary border-b border-transparent group-hover:border-primary transition-all">VIEW FISH</span>
+</div>
+</div>
+<!-- Fish Card 2 -->
+<div class="group cursor-pointer fade-up delay-100 flex flex-col gap-4">
+<div class="relative aspect-[4/5] overflow-hidden image-container-border bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100" data-alt="A magnificent Super Red Halfmoon Betta displaying full fin spread. The intense, deep crimson color contrasts sharply with the dark, empty background. The lighting highlights the velvety texture of the scales and the dramatic sweep of its tail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDO4c7QOEx-3iq4ktNuCCeX9ZxDERsjDYzzQN-vvpSRPAYPFo-N4r-KVX6xGq4QeiOWtnSxWtMTcSqK4G1IItQflV7MQPDa02YTW5CWk454Mrg2kcoD9iHfYpDzX5vMv-DFob80eUsE7AqH4RgquyIL2bEEldABaAMETqPJno2rnjVdVUmbBa1IwVgkHNUsYoKCGIRLxPP0N3xLacWr11Us7FBJCtOMG_EtPPZT_rEZ2s7rTbGbms7"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-80"></div>
+<div class="absolute bottom-0 left-0 p-6 flex flex-col gap-2 w-full">
+<span class="font-label-sm text-label-sm text-primary tracking-widest">RESERVED</span>
+<h3 class="font-title-lg text-title-lg text-on-background">Super Red Halfmoon</h3>
+</div>
+</div>
+<div class="flex justify-between items-center px-2">
+<span class="font-label-sm text-label-sm text-on-background/60">ID: BT-2026-002</span>
+<span class="font-label-sm text-label-sm text-primary border-b border-transparent group-hover:border-primary transition-all">VIEW FISH</span>
+</div>
+</div>
+<!-- Fish Card 3 -->
+<div class="group cursor-pointer fade-up delay-200 flex flex-col gap-4">
+<div class="relative aspect-[4/5] overflow-hidden image-container-border bg-surface-container-lowest">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100" data-alt="An ethereal Blue Rim Marble Betta swimming gracefully. The crisp white body is contrasted by striking deep blue margins on its fins. The lighting is soft and cinematic, set against a dark void, emphasizing the elegant, minimalist aesthetic of the fish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlcXO0dGb3R0Y5u2vEMHG4WOWdpS6ufTy1hx6ShxAT9muEhTorZVsQYAHAdtc23Zp2U7caGsijbR9TeJ3YqqHy7He5BHGEAnVGwt1Z8cvle48OHL3XcPjtehWwZreR8nub93Szrh6GD11e2lqw70VGyuph_KUubf6woNtmTL8UYMCpUdXisvwPgoO_GF4iR2fs5_YeFM9yXWP3S00R04-wQi1Fz_zmwRDPodr5C56EzFObsxaQGYq7"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-80"></div>
+<div class="absolute bottom-0 left-0 p-6 flex flex-col gap-2 w-full">
+<span class="font-label-sm text-label-sm text-primary tracking-widest">AVAILABLE</span>
+<h3 class="font-title-lg text-title-lg text-on-background">Blue Rim Marble</h3>
+</div>
+</div>
+<div class="flex justify-between items-center px-2">
+<span class="font-label-sm text-label-sm text-on-background/60">ID: BT-2026-003</span>
+<span class="font-label-sm text-label-sm text-primary border-b border-transparent group-hover:border-primary transition-all">VIEW FISH</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-container-lowest border-t border-white/10 w-full py-section-gap px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter max-w-container-max mx-auto">
+<div class="md:col-span-4 flex flex-col gap-4">
+<span class="font-display-lg text-headline-md text-primary">AQUATIC ART</span>
+<p class="font-label-sm text-label-sm text-on-background/60 tracking-widest mt-4 uppercase">
+                    © 2024 AQUATIC ART PORTFOLIO.<br/>ALL RIGHTS RESERVED.
+                </p>
+</div>
+<div class="md:col-span-8 flex flex-col sm:flex-row gap-12 justify-end font-body-md text-body-md text-on-surface-variant">
+<ul class="flex flex-col gap-4">
+<li><a class="hover:text-primary underline underline-offset-4 transition-all duration-300" href="#">Terms</a></li>
+<li><a class="hover:text-primary underline underline-offset-4 transition-all duration-300" href="#">Privacy</a></li>
+</ul>
+<ul class="flex flex-col gap-4">
+<li><a class="hover:text-primary underline underline-offset-4 transition-all duration-300" href="#">Shipping</a></li>
+<li><a class="hover:text-primary underline underline-offset-4 transition-all duration-300" href="#">Contact</a></li>
+</ul>
+</div>
+</div>
+</footer>
+<script>
+        // Simple Intersection Observer for fade-up animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.fade-up').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body></html>

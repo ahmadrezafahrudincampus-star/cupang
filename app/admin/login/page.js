@@ -18,12 +18,10 @@ export default function LoginPage() {
     setLoading(true)
     setError(null)
 
-    const isPlaceholder = !process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL.includes('placeholder')
-
-    if (isPlaceholder && (email === 'admin@aquaticart.com' || email.includes('admin'))) {
-      document.cookie = 'admin_dev_session=true; path=/; max-age=86400;'
-      router.push('/admin/dashboard')
-      router.refresh()
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    if (!supabaseUrl || supabaseUrl.includes('placeholder')) {
+      setError('Konfigurasi Supabase backend belum lengkap pada environment ini.')
+      setLoading(false)
       return
     }
 

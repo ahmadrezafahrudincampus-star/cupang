@@ -12,18 +12,16 @@ export async function middleware(request) {
   // Only run auth checks on admin routes
   if (pathname === '/admin' || pathname.startsWith('/admin/')) {
     const isLoginPage = pathname === '/admin/login'
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const defaultUrl = 'https://hhzkiaxscfmxmoykqdpn.supabase.co'
+    const defaultKey = 'sb_publishable_7rN0pKxEHpTevG0lj_9W6Q_4MY4SKaT'
 
-    // If Supabase credentials are missing or placeholder, STRICTLY BLOCK admin access
-    if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes('placeholder')) {
-      if (!isLoginPage) {
-        url.pathname = '/admin/login'
-        url.search = '?error=config_missing'
-        return NextResponse.redirect(url)
-      }
-      return response
-    }
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL && !process.env.NEXT_PUBLIC_SUPABASE_URL.includes('placeholder')
+      ? process.env.NEXT_PUBLIC_SUPABASE_URL
+      : defaultUrl
+    const rawKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const supabaseAnonKey = rawKey && !rawKey.includes('placeholder')
+      ? rawKey
+      : defaultKey
 
     try {
       const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {

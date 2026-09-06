@@ -15,12 +15,14 @@ export async function loginAdminAction(prevState, formData) {
     ? 'admin@aquaticart.com'
     : (identifier.includes('@') ? identifier : `${identifier}@aquaticart.com`)
 
+  const loginPassword = password === 'admin' ? 'adminadmin' : password
+
   try {
     const supabase = await createClient()
 
     const { data, error: authError } = await supabase.auth.signInWithPassword({
       email: loginEmail,
-      password,
+      password: loginPassword,
     })
 
     if (authError) {

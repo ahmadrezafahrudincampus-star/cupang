@@ -1,90 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
+import { useState, useActionState } from 'react'
+import { loginAdminAction } from '@/app/actions/auth'
 import Link from 'next/link'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search)
-      const errParam = params.get('error')
-      if (errParam === 'config_missing') {
-        return 'Konfigurasi Supabase backend belum lengkap pada environment ini.'
-      } else if (errParam === 'unauthorized') {
-        return 'Akses ditolak. Akun Anda tidak memiliki hak akses CMS.'
-      }
-    }
-    return null
-  })
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
-  const supabase = createClient()
-
-  const handleLogin = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
-
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    if (!supabaseUrl || !supabaseKey || supabaseUrl.includes('placeholder')) {
-      setError('Konfigurasi Supabase backend belum lengkap pada environment ini.')
-      setLoading(false)
-      return
-    }
-
-    const normalizedInput = email.trim()
-    const loginEmail = normalizedInput.toLowerCase() === 'admin'
-      ? 'admin@aquaticart.com'
-      : (normalizedInput.includes('@') ? normalizedInput : `${normalizedInput}@aquaticart.com`)
-
-    try {
-      const { data, error: authError } = await supabase.auth.signInWithPassword({
-        email: loginEmail,
-        password,
-      })
-
-      if (authError) {
-        setError(authError.message || 'Kombinasi username/email dan kata sandi tidak valid.')
-        setLoading(false)
-        return
-      }
-
-      if (data?.user) {
-        // Verify role server-side via profiles table
-        const { data: profile, error: profileErr } = await supabase
-          .from('profiles')
-          .select('role, active')
-          .eq('id', data.user.id)
-          .maybeSingle()
-
-        if (profileErr || !profile || !['admin', 'super_admin', 'editor'].includes(profile.role)) {
-          await supabase.auth.signOut()
-          setError('Akses ditolak. Akun Anda tidak memiliki hak akses CMS.')
-          setLoading(false)
-          return
-        }
-
-        if (profile.active === false) {
-          await supabase.auth.signOut()
-          setError('Akun Anda dinonaktifkan. Hubungi super administrator.')
-          setLoading(false)
-          return
-        }
-
-        router.push('/admin/dashboard')
-        router.refresh()
-      }
-    } catch (err) {
-      setError(err?.message || 'Gagal menghubungi server autentikasi.')
-      setLoading(false)
-    }
-  }
+  const [state, formAction, isPending] = useActionState(loginAdminAction, null)
 
   return (
     <main className="min-h-screen min-h-[100dvh] w-full flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 bg-background text-on-surface">
@@ -100,22 +22,22 @@ export default function LoginPage() {
         </div>
 
         {/* Error Notification */}
-        {error && (
+        {state?.error && (
           <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3.5 rounded-md mb-6 text-xs leading-relaxed text-center font-body">
-            {error}
+            {state.error}
           </div>
         )}
 
         {/* Login Form */}
-        <form onSubmit={handleLogin} className="space-y-5">
+        <form action={formAction} className="space-y-5">
           <div>
             <label className="block text-xs uppercase tracking-wider text-on-surface-variant font-body mb-2">
               Username / Email Administrator
             </label>
             <input
               type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="identifier"
+              defaultValue="admin"
               className="w-full bg-surface-container border border-white/[0.1] rounded px-4 py-3 focus:outline-none focus:border-primary text-on-surface text-sm transition-colors font-body"
               required
               placeholder="admin atau admin@aquaticart.com"
@@ -138,8 +60,8 @@ export default function LoginPage() {
             </div>
             <input
               type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              defaultValue="admin"
               className="w-full bg-surface-container border border-white/[0.1] rounded px-4 py-3 focus:outline-none focus:border-primary text-on-surface text-sm transition-colors font-body"
               required
               placeholder="••••••••"
@@ -149,10 +71,10 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={isPending}
             className="w-full bg-primary text-black font-semibold py-3.5 rounded text-xs uppercase tracking-widest hover:brightness-110 active:scale-[0.99] transition-all disabled:opacity-50 mt-8 shadow-lg cursor-pointer font-body"
           >
-            {loading ? 'Memverifikasi...' : 'Masuk Super Admin'}
+            {isPending ? 'Memverifikasi...' : 'Masuk Super Admin'}
           </button>
         </form>
 

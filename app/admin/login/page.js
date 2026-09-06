@@ -38,14 +38,19 @@ export default function LoginPage() {
       return
     }
 
+    const normalizedInput = email.trim()
+    const loginEmail = normalizedInput.toLowerCase() === 'admin'
+      ? 'admin@aquaticart.com'
+      : (normalizedInput.includes('@') ? normalizedInput : `${normalizedInput}@aquaticart.com`)
+
     try {
       const { data, error: authError } = await supabase.auth.signInWithPassword({
-        email,
+        email: loginEmail,
         password,
       })
 
       if (authError) {
-        setError(authError.message || 'Kombinasi email dan kata sandi tidak valid.')
+        setError(authError.message || 'Kombinasi username/email dan kata sandi tidak valid.')
         setLoading(false)
         return
       }
@@ -105,16 +110,16 @@ export default function LoginPage() {
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
             <label className="block text-xs uppercase tracking-wider text-on-surface-variant font-body mb-2">
-              Email Administrator
+              Username / Email Administrator
             </label>
             <input
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-surface-container border border-white/[0.1] rounded px-4 py-3 focus:outline-none focus:border-primary text-on-surface text-sm transition-colors font-body"
               required
-              placeholder="admin@aquaticart.com"
-              autoComplete="email"
+              placeholder="admin atau admin@aquaticart.com"
+              autoComplete="username"
             />
           </div>
 
